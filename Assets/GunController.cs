@@ -8,6 +8,7 @@ public class GunController : MonoBehaviour
     public Transform projectileSpawn;
     public float projectileSpeed = 10f;
     public float lifeTime = 10f;
+    public float Tilt = 0f;
 
     void Start()
     {
@@ -38,11 +39,9 @@ public class GunController : MonoBehaviour
     {
         GameObject projectile = Instantiate(projectilePrefab);
         projectile.transform.position = projectileSpawn.position;
-        projectile.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 1) * projectileSpeed;
+        projectile.GetComponent<Rigidbody>().velocity = new Vector3(0, Tilt, 1) * projectileSpeed;
 
-        //projectile.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, 0) * -4 / 2);
         projectile.GetComponent<ElectronController>().LifeTime = lifeTime;
-        //projectile.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 1) * projectileSpeed, ForceMode.Impulse);
     }
 
 }

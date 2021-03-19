@@ -36,7 +36,11 @@ public class MagFieldSpriteController : MonoBehaviour
         {
             sr.sprite = inSprite;
         }
-        this.transform.localScale = new Vector3(Math.Abs(FieldStrength) / 10, Math.Abs(FieldStrength) / 10, Math.Abs(FieldStrength) / 10);
+        this.transform.localScale = new Vector3(Math.Abs(FieldStrength) / 20, Math.Abs(FieldStrength) / 20, Math.Abs(FieldStrength) / 20);
+        if (FieldStrength < 0)
+            sr.color = new Color(1, 0, Math.Abs(FieldStrength) / 10);
+        else
+            sr.color = new Color(0, Math.Abs(FieldStrength) / 10, 1);
 
     }
 }
