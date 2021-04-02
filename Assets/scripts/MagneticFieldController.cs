@@ -12,6 +12,10 @@ public class MagneticFieldController : MonoBehaviour
     private List<GameObject> m_fieldLines;
 
     public int max_dim = 5;
+
+
+    private Vector2 startTouchPos;
+    private bool touched;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +53,81 @@ public class MagneticFieldController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            Debug.Log("Touch detected");
+
+            if (touch.phase == TouchPhase.Moved)
+            {
+                this.FieldStrength += 30 * Time.deltaTime * (touch.position.x - startTouchPos.x) * 0.05f;
+                if (this.FieldStrength > 10)
+                {
+                    this.FieldStrength = 10;
+                }
+                if (this.FieldStrength < -10)
+                {
+                    this.FieldStrength = -10;
+                }
+                startTouchPos = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Began)
+            {
+                touched = true;
+                startTouchPos = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                touched = false;
+            }
+
+        }
+        /*
+        if (Input.GetMouseButton(0))
+        {
+            Debug.Log("Mouse button pressed.");
+            if (!touched)
+            {
+                touched = true;
+                startTouchPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            }
+        }
+        else
+        {
+            Debug.Log("Mouse button released.");
+            touched = false;
+        }
+        if (touched)
+        {
+            this.FieldStrength += 30 * Time.deltaTime * (Input.mousePosition.x - startTouchPos.x) * 0.1f;
+            if (this.FieldStrength > 10)
+            {
+                this.FieldStrength = 10;
+            }
+            if (this.FieldStrength < -10)
+            {
+                this.FieldStrength = -10;
+            }
+            startTouchPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        }
+        */
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            this.FieldStrength += 30 * Time.deltaTime;
+            if (this.FieldStrength > 10)
+            {
+                this.FieldStrength = 10;
+            }
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            this.FieldStrength -= 30 * Time.deltaTime;
+            if (this.FieldStrength < -10)
+            {
+                this.FieldStrength = -10;
+            }
+        }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             this.FieldStrength += 30 * Time.deltaTime;
